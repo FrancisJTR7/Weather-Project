@@ -7,15 +7,16 @@ import { getFormattedWeatherData } from './weatherService';
 function App() {
   const [city, setCity] = useState('Paris');
   const [weather, setWeather] = useState(null);
-  const [units, setUnits] = useState('metric');
+  const [units, setUnits] = useState('imperial');
   const [bg, setBg] = useState(hotBg);
+  const [buttonText, setButtonText] = useState('°F');
 
   useEffect(() => {
     const fetchWeatherData = async () => {
       const data = await getFormattedWeatherData(city, units);
       setWeather(data);
 
-      const threshold = units === 'metric' ? 20 : 59;
+      const threshold = units === 'imperial' ? 59 : 20;
       if (data.temp <= threshold) setBg(coldBg);
       else setBg(hotBg);
     };
@@ -23,13 +24,14 @@ function App() {
     fetchWeatherData();
   }, [units, city]);
 
-  const handleUnitsClick = (e) => {
-    const button = e.currentTarget;
-    const currentUnit = button.innerText.slice(1);
-
-    const isCelsius = currentUnit === 'C';
-    button.innerText = isCelsius ? '°F' : '°C';
-    setUnits(isCelsius ? 'metric' : 'imperial');
+  const handleUnitsClick = () => {
+    if (units === 'imperial') {
+      setUnits('metric');
+      setButtonText('°C');
+    } else {
+      setUnits('imperial');
+      setButtonText('°F');
+    }
   };
 
   const enterKeyPressed = (e) => {
@@ -51,7 +53,7 @@ function App() {
                 name='city'
                 placeholder='Enter City...'
               />
-              <button onClick={(e) => handleUnitsClick(e)}>°F</button>
+              <button onClick={(e) => handleUnitsClick(e)}>{buttonText}</button>
             </div>
             <div className='section section__temperature'>
               <div className='icon'>
@@ -61,7 +63,7 @@ function App() {
               </div>
               <div className='temperature'>
                 <h1>{`${weather.temp.toFixed()}° ${
-                  units === 'metric' ? 'C' : 'F'
+                  units === 'imperial' ? 'F' : 'C'
                 }`}</h1>
               </div>
             </div>
