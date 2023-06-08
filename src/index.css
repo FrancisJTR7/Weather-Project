@@ -66,7 +66,7 @@
   outline: none;
 }
 
-.section_inputs > button {
+.section__input > button {
   padding: 10px 50px;
   border: none;
   border-radius: 0.4rem;
@@ -75,7 +75,7 @@
   background-color: white;
 }
 
-.section_inputs > button:hover {
+.section__input > button:hover {
   cursor: pointer;
   background-color: lightgray;
 }
@@ -85,10 +85,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.icon > img {
-  max-height: 120px;
 }
 
 .icon > h3 {
